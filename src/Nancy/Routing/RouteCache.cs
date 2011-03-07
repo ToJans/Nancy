@@ -12,8 +12,8 @@
         public RouteCache(INancyModuleCatalog moduleCatalog, IModuleKeyGenerator moduleKeyGenerator, INancyContextFactory contextFactory)
         {
             this.moduleKeyGenerator = moduleKeyGenerator;
-
-            this.BuildCache(moduleCatalog.GetAllModules(contextFactory.Create()));
+            // materialize the IEnumerable in order to avoid "Collection was modified"
+            this.BuildCache(moduleCatalog.GetAllModules(contextFactory.Create()).ToArray());
         }
 
         private void BuildCache(IEnumerable<NancyModule> modules)
